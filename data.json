@@ -1,0 +1,11 @@
+{
+    "players": [
+        {
+            "username": "player0"
+        },
+        {
+            "username": "player1"
+        }
+    ],
+    "cities": []
+}
