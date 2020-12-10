@@ -40,9 +40,9 @@ def create_player(username, cities, client):
 
 def parse_data(data):
     players = list()
-    cities = Cities(list())
+    cities = list()
     for cities_data in data['cities']:
-        cities.cities.append(cities_data['city'])
+        cities.append(cities_data['city'])
     for player_data in data['players']:
         player = Player(player_data['username'],
                         cities,
@@ -53,7 +53,7 @@ def parse_data(data):
 
 def init_players():
     players = list()
-    cities = Cities(list())
+    cities = list()
     for i in range(0, NUMBER_OF_PLAYERS):
         players.append(
             create_player(
@@ -86,7 +86,7 @@ def dump_game_state_to_json(players, cities, json_file_path):
     data = {'players': [], "cities":[]}
     for player in players:
         data['players'].append(player.dict())
-    for city in cities:
+    for city in player.cities:
         data['cities'].append({'city': city})
     with open(json_file_path, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -116,10 +116,10 @@ class Player:
     #     return self.cities.cities
 
     def move(self, city):
-        self.cities.cities.append(city.lower())
+        self.cities.append(city.lower())
 
     def fail(self, city):
-        return (city.lower() in set(self.cities.cities))
+        return city.lower() in set(self.cities)
 
     def dict(self):
         return {

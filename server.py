@@ -49,7 +49,7 @@ class Server(object):
         success, data = game.load_game_state_from_json(JSON_FILE_PATH)
         if success:
             self.players = game.parse_data(data)
-            self.cities = self.players[0].cities.cities
+            self.cities = self.players[0].cities
         else:
             self.players = game.init_players()
             self.cities = list()
@@ -90,8 +90,8 @@ class Server(object):
         else:
             for player in self.players:
                 try:
-                    if len(player.cities.cities) > 0:
-                        message = Message(game_continue=True, city=player.cities.cities[-1])
+                    if len(player.cities) > 0:
+                        message = Message(game_continue=True, city=player.cities[-1])
                     else:
                         message = Message(game_begin=True)
                     self.send(player.client_socket, message)
@@ -103,7 +103,7 @@ class Server(object):
         for player in self.players:
             print(player)
 
-        game.dump_game_state_to_json(self.players, self.players[0].cities.cities, JSON_FILE_PATH)
+        game.dump_game_state_to_json(self.players, self.players[0].cities, JSON_FILE_PATH)
 
         # HANDLE
         cont = True
@@ -130,9 +130,9 @@ class Server(object):
                     break
                 else:
                     player.move(message.city)
-                    self.cities.append(message.city)
+                    self.cities = player.cities
                     message.username = player.username.upper()
-                    message.city = player.cities.cities[-1]
+                    message.city = message.city
                     self.broadcast(message)
                     print(message)
 

@@ -7,5 +7,12 @@
             "username": "player1"
         }
     ],
-    "cities": []
+    "cities": [
+        {
+            "city": "avssgga"
+        },
+        {
+            "city": "asdsa"
+        }
+    ]
 }
