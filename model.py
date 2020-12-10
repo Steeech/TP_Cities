@@ -20,7 +20,7 @@ class Message(object):
         self.game_begin = False
         self.game_continue = False
         self.can_move = False
-        self.incorrect_move=False
+        self.incorrect_move = False
         self.quit = False
         self.nichya = False
         self.fail = False
@@ -37,6 +37,8 @@ class Message(object):
             return NICHYA
         if self.fail:
             return FAIL_PATTERN.format(**self.__dict__)
+        if self.incorrect_move:
+            return MOVE_AGAIN.format(**self.__dict__)
         return MOVE_PATTERN.format(**self.__dict__)
 
     def marshal(self):

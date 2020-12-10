@@ -20,7 +20,7 @@ schema = {
                 "username": {"type": "string"}
             }
         },
-        "cities":{
+        "cities": {
             "type": "array",
             "items": {
                 "city": {"type": "string"}
@@ -83,7 +83,7 @@ def load_game_state_from_json(json_file_path):
 
 
 def dump_game_state_to_json(players, cities, json_file_path):
-    data = {'players': [], "cities":[]}
+    data = {'players': [], "cities": []}
     for player in players:
         data['players'].append(player.dict())
     for city in player.cities:
@@ -117,6 +117,9 @@ class Player:
 
     def move(self, city):
         self.cities.append(city.lower())
+
+    def can_move(self, city):
+        return self.cities[-1][-1] == (city.lower())[0]
 
     def fail(self, city):
         return city.lower() in set(self.cities)

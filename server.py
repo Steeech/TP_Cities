@@ -110,14 +110,25 @@ class Server(object):
         while cont:
             # Receive and handle the moves of the players in a row
             for player in self.players:
-                client_socket = player.client_socket
-                message_from_server = Message(can_move=True)
-                self.send(client_socket, message_from_server)
-                try:
-                    message = Message(**json.loads(self.receive(client_socket)))
-                except(ConnectionAbortedError, ConnectionResetError):
-                    print(CONNECTION_ABORTED)
-                    return
+                while True:
+                    client_socket = player.client_socket
+                    message_from_server = Message(can_move=True)
+                    self.send(client_socket, message_from_server)
+                    try:
+                        message = Message(**json.loads(self.receive(client_socket)))
+                    except(ConnectionAbortedError, ConnectionResetError):
+                        print(CONNECTION_ABORTED)
+                        return
+                    if message.quit:
+                        cont = False
+                        break
+                    if (not player.can_move(message.city)):
+                        message1 = Message(incorrect_move=True, letter=player.cities[-1][-1].upper())
+                        self.send(player.client_socket, message1)
+                        print(message1)
+                    else:
+                        break
+
                 if message.quit:
                     cont = False
                     break
@@ -135,6 +146,7 @@ class Server(object):
                     message.city = message.city
                     self.broadcast(message)
                     print(message)
+
 
             game.dump_game_state_to_json(self.players, self.cities, JSON_FILE_PATH)
 
