@@ -19,19 +19,17 @@ class Client(object):
         self.receive_worker = None
         self.sock = None
         self.username = None
-        self.ui = view.BlindSearchGameUI(self)
+        self.ui = view.CitiesGameUI(self)
         Client.instance = self
-        self.can_move = False  # denotes if the player can move or not
+        self.can_move = False
 
     def execute(self):
-        # Initialize GUI
+
         if not self.ui.show():
             return
 
-        # Initialize the socket
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        # Connect to the server
         while True:
             try:
                 self.sock.connect((socket.gethostname(), server.PORT))
@@ -74,7 +72,6 @@ class Client(object):
         return buffer[:-1]
 
     def send(self):
-        # Send the message to the server containing the angle of one move
         if self.can_move:
             city = self.ui.city.get()
             message = model.Message(city=city)
@@ -84,6 +81,18 @@ class Client(object):
                 if not self.closing:
                     self.ui.alert(ERROR, CONNECTION_ERROR)
             self.can_move = False
+            self.ui.reset()
+
+    def send_fail(self):
+        if self.can_move:
+            message = model.Message(city='Give up')
+            try:
+                self.sock.sendall(message.marshal())
+            except (ConnectionAbortedError, ConnectionResetError):
+                if not self.closing:
+                    self.ui.alert(ERROR, CONNECTION_ERROR)
+            self.can_move = False
+            self.ui.reset()
 
     def exit(self):
         self.closing = True
@@ -96,6 +105,5 @@ class Client(object):
 
 
 if __name__ == "__main__":
-    print("heloh?")
     app = Client()
     app.execute()

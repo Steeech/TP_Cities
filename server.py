@@ -52,7 +52,7 @@ class Server(object):
             self.cities = self.players[0].cities
         else:
             self.players = game.init_players()
-            self.cities = list()
+            self.cities = ['Самара']
 
         new_game = not success
 
@@ -138,6 +138,7 @@ class Server(object):
                     print(message)
                     self.players = list()
                     self.cities = list()
+                    cont = False
                     break
                 else:
                     player.move(message.city)
@@ -146,7 +147,6 @@ class Server(object):
                     message.city = message.city
                     self.broadcast(message)
                     print(message)
-
 
             game.dump_game_state_to_json(self.players, self.cities, JSON_FILE_PATH)
 

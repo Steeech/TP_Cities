@@ -1,13 +1,13 @@
 import json
 
 END_CHARACTER = "\0"
-MOVE_PATTERN = "{username}> city: {city}"
-GAME_BEGIN = "GAME BEGIN! Starting city: Samara"
-GAME_CONTINUE = "GAME CONTINUE! Last city: {city}"
-YOUR_MOVE = "You move"
-MOVE_AGAIN = "INCORRECT MOVE! The city must start with a letter: {letter}"
-NICHYA = "Nichya!"
-FAIL_PATTERN = "{username} fail!"
+MOVE_PATTERN = "{username}> город: {city}"
+GAME_BEGIN = "GAME BEGIN! Начальный город: Самара"
+GAME_CONTINUE = "GAME CONTINUE! Последний названный город: {city}"
+YOUR_MOVE = "Твой ход"
+MOVE_AGAIN = "Некорректный ход! Город должен начинаться на букву {letter} и существовать в реальности"
+NICHYA = "Ничья!"
+FAIL_PATTERN = "{username} проиграл!"
 TARGET_ENCODING = "utf-8"
 
 
