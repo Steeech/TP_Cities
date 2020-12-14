@@ -94,6 +94,14 @@ def dump_game_state_to_json(players, cities, json_file_path):
     with open(json_file_path, 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
+def delete_probel(city):
+    i = -1
+    while city[i] == ' ':
+        i -= 1
+        print(i, city[i])
+    if i == -1:
+        return city
+    return city[:i+1]
 
 class Player:
 
@@ -106,9 +114,11 @@ class Player:
         return f"Player username: {self.username}"
 
     def move(self, city):
+        city = delete_probel(city)
         self.cities.append(city)
 
     def can_move(self, city):
+        city = delete_probel(city)
         condition0 = len(city)!=0
         if condition0:
             if self.cities[-1][-1] in 'ъыь':
